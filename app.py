@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
-import datetime
+from datetime import datetime, timezone
 
 app = FastAPI()
 
@@ -18,7 +18,7 @@ def receive_feedback(feedback: Feedback):
     entry = {
         "username": feedback.username,
         "message": feedback.message,
-        "timestamp": datetime.datetime.now(datetime.UTC)
+        "timestamp": datetime.now(datetime.UTC)
     }
     feedbacks.append(entry)
     return {"status": "received", "entry": entry}

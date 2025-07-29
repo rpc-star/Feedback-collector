@@ -1,6 +1,9 @@
 from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from datetime import datetime, timezone
+from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
+import os
 
 app = FastAPI()
 
@@ -27,3 +30,9 @@ def receive_feedback(feedback: Feedback):
 @app.get("/feedback")
 def get_feedback():
     return feedbacks
+
+app.mount("/static", StaticFiles(directory="public"), name="static")
+
+@app.get("/")
+def get_form():
+    return FileResponse("public/index.html")

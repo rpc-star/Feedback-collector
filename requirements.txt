@@ -1,2 +1,4 @@
 fastapi
-unicorn[standart]
+uvicorn[standart]
+asyncpg
+sqlalchemy

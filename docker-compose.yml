@@ -1,0 +1,31 @@
+version: '3.9'
+
+
+services:
+  api:
+    build: .
+    container_name: feedback
+    ports:
+      -"8000:8000"
+    depends_on:
+      - db
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=feedback
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+  
+  db:
+    image: postgres:15
+    container_name: feedback-db
+    restart: always
+    environment:
+      - POSTGRES_DB: feedback
+      - POSTGRES_USER: postgres
+      - POSTGRES_PASSWORD: postgres
+    volumes:
+      -postgres_data: /var/lib/postgresql/data
+
+volumes:
+  postgres_data:

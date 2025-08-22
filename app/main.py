@@ -28,8 +28,12 @@ async_session = sessionmaker(
 )
 
 
-Base = declarative_base
+Base = declarative_base()
 
+
+class FeedbackCreate(BaseModel):
+    username: str
+    message: str
 
 #модель таблицы
 
@@ -56,8 +60,8 @@ async def get_form():
     return FileResponse("public/index.html")
 
 @app.post("/feedback")
-async def create_feedback(username: str, message: str, session: AsyncSession = Depends(async_session)):
-    feedback = Feedback(username=username, message=message)
+async def create_feedback(data: FeedbackCreate, session: AsyncSession = Depends(async_session)):
+    feedback = Feedback(username=data.username, message=data.message)
     session.add(feedback)
     await session.commit()
     return {"status": "ok"}
